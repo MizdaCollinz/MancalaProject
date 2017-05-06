@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Board {
     private static final int DEFAULT_NUM_HOUSES = 6;
-    private static final int DEFAULT_SEED_COUNT = 10;
+    private static final int DEFAULT_SEED_COUNT = 4;
     private static final int DEFAULT_NUM_PLAYERS = 2;
     private static final String DEFAULT_QUIT_STRING = "q";
     private IO boardIO;
@@ -30,27 +30,48 @@ public class Board {
         }
         currentTurn = 0;
     }
+    //Return status
+    /*
+        -1 : User has quit the game
+         0 : Proceed as per usual
+         1 : The game has ended
+     */
+    public int beginTurn(boolean swapTurn){
 
-    public boolean beginTurn(){
-        printBoard();
-        if(!expectInput()){
-            return false;
+        //Alternate turns unless input false [Bonus Turn, Invalid Input]
+        if(swapTurn) {
+            if (currentTurn == 0) {
+                currentTurn = 1;
+            } else {
+                currentTurn = 0;
+            }
         }
-        //Move on to next player's turn
-        if(currentTurn == 0){ currentTurn = 1;} else { currentTurn = 0;}
-        return true;
+
+        printBoard();
+
+        //Check if current turn is possible
+        if(!players.get(currentTurn).movesAvailable()){
+            return 1;
+        }
+        return expectInput();
+
     }
 
-    public boolean expectInput() {
-        int houseValue = boardIO.readInteger("Player " + (currentTurn+1) + "'s turn - Specify house number or 'q' to quit: ", 1, numHouses, -1, DEFAULT_QUIT_STRING);
+    public int expectInput() {
+        int houseValue = boardIO.readInteger("Player P" + (currentTurn+1) + "'s turn - Specify house number or 'q' to quit: ", 1, numHouses, -1, DEFAULT_QUIT_STRING);
         if (houseValue == -1) {
-            return false; // Quit game
+            return -1; // Quit game
         } else {
-            if (pickUpHouse(houseValue)) {
-                printBoard(); //Bonus turn before next player turn
-                expectInput();
+            //If the House is empty, Print an error to user and repeat user's turn
+            if (players.get(currentTurn).getHouses().get(houseValue-1).getSeeds() == 0){
+                boardIO.println("House is empty. Move again.");
+               return beginTurn(false);
             }
-            return true; //True means continue game
+            //If you end in a store, complete a bonus turn
+            if (pickUpHouse(houseValue)) {
+                return beginTurn(false);
+            }
+            return 0; //True means continue game
         }
     }
 
@@ -67,9 +88,14 @@ public class Board {
 
         //Fetches specified house of current player, empties its seeds, returns number of seeds
        int seedsFound = playerHouses.get(house-1).pickUp();
-       int nextHouse = house; //House to drop next seed into
-       boolean myHouses = true; //Next seed drop is in player's own house
+
+       //House to drop next seed into
+       int nextHouse = house;
+        //Next seed drop is in player's own house
+       boolean myHouses = true;
        boolean lastSeed = false;
+       //Check if seeds placed in enemy housing
+       boolean visitedEnemy = false;
 
         //Iterate through following houses dropping seeds one by one
        for(int i=0; i<seedsFound; i++){
@@ -85,7 +111,9 @@ public class Board {
                         return true; // Bonus turn
                     }
                 } else {
-                   otherPlayer.getStore().receiveSeeds(1);
+                    //Skip the Opposing store, go straight to first owned house
+                   i--;
+                   nextHouse =0;
                 }
                 myHouses = !myHouses; // After a store is the opposite player's houses
                 nextHouse = 0;
@@ -95,10 +123,16 @@ public class Board {
                     if(lastSeed){
                        if(dropHouse.receiveLastSeed()){
                            int toStore = 1; //Seed being dropped
-                           int fromCapture = opponentHouses.get(nextHouse).capturedByEnemy();
-                           toStore += fromCapture;
-                           currentPlayer.getStore().receiveSeeds(toStore);
+                           int oppositeHouse = numHouses - nextHouse-1;
 
+                           //Number of seeds captured
+                           int fromCapture = opponentHouses.get(oppositeHouse).capturedByEnemy();
+                           if (fromCapture == 0){
+                               dropHouse.receiveSeed();
+                           } else {
+                               toStore += fromCapture;
+                               currentPlayer.getStore().receiveSeeds(toStore);
+                           }
                        }
                     } else {
                         dropHouse.receiveSeed();
@@ -152,7 +186,10 @@ public class Board {
     }
 
     //The game has ended, declare a victor
-    public void endGame(){
-
+    public int[] endGame(){
+        int p1Score = players.get(0).checkScore();
+        int p2Score = players.get(1).checkScore();
+        int[] scores = {p1Score,p2Score};
+        return scores;
     }
 }

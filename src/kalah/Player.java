@@ -41,8 +41,23 @@ public class Player {
         return playerStore;
     }
 
+    //Check if player can proceed
     public boolean movesAvailable(){
-        return true;
-        //TODO
+        for (int i=0; i<numHouses; i++){
+            if(playerHouses.get(i).getSeeds() > 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int checkScore(){
+        int score = 0;
+        for (int i=0; i<numHouses; i++ ){
+            score += playerHouses.get(i).getSeeds();
+        }
+        score += playerStore.getSeeds();
+
+        return score;
     }
 }

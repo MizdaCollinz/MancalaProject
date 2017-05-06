@@ -34,6 +34,14 @@ public class House {
         }
     }
 
+    public int getSeeds(){
+        return seedCount;
+    }
+
+//    public void returnSeeds(int seeds){
+//        seedCount += seeds;
+//    }
+
     public int capturedByEnemy(){
         int handover = seedCount;
         seedCount = 0;

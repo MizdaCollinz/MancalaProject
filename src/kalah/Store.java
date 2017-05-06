@@ -18,20 +18,19 @@ public class Store {
     }
 
     public String toString(){
-        String leftFiller = "";
-        String rightFiller = "";
+        String filler = "";
         if (seedCount < 10){
-            if(playerNumber == 0){
-                rightFiller = " ";
-            } else if (playerNumber == 1){
-                leftFiller = " ";
-            }
+            filler = " ";
         }
 
-        return " " + leftFiller + seedCount + rightFiller + " ";
+        return " " + filler + seedCount + " ";
     }
 
     public void  receiveSeeds(int seeds){
         seedCount += seeds;
+    }
+
+    public int getSeeds(){
+        return seedCount;
     }
 }
