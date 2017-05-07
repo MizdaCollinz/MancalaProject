@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by bcoll on 5/3/2017.
  */
-public class Board {
+public class Board implements GameBoard{
     private static final int DEFAULT_NUM_HOUSES = 6;
     private static final int DEFAULT_SEED_COUNT = 4;
     private static final int DEFAULT_NUM_PLAYERS = 2;
@@ -22,6 +22,7 @@ public class Board {
 
     private List<Player> players = new ArrayList<Player>();
     private int currentTurn;
+    private boolean firstTurn = true;
 
     public Board(IO io) {
         boardIO = io;
@@ -55,6 +56,15 @@ public class Board {
         }
         return expectInput();
 
+    }
+
+    public int beginTurn(){
+        if (firstTurn){
+            firstTurn = false;
+           return beginTurn(false);
+        } else {
+           return beginTurn(true);
+        }
     }
 
     public int expectInput() {

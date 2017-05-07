@@ -13,22 +13,17 @@ public class Kalah {
 
 	public void play(IO io) {
 
-	    Board board = new Board(io);
-	    boolean firstRun = true;
+	    GameBoard board = new Board(io);
 	    int continueGame;
 
 		while(true){
-			if(firstRun){
-				firstRun = false;
-				continueGame = board.beginTurn(false);//Dont swap on first call, use default value player 1
-			} else {
-				continueGame = board.beginTurn(true); //Continue turns until false which means q was pressed
-			}
+			continueGame = board.beginTurn();
 			if(continueGame == -1 || continueGame == 1){
 				break;
 			}
 		}
 
+		//The game has ended, either due to Quit or a player running out of moves
 		io.println("Game over"); // Game ended
 		board.printBoard();
 
