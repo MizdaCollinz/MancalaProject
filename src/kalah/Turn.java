@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Benjamin on 5/8/2017.
  */
-public class Turn {
+public class Turn implements GameTurn {
 
     private int numHouses;
 
@@ -41,7 +41,12 @@ public class Turn {
         this.pickup = house;
     }
 
-    public boolean pickUpHouse(int house){
+    public void setPlayers(Player current, Player other){
+        this.current = current;
+        this.opponent = other;
+    }
+
+    private boolean pickUpHouse(int house){
 
         //Fetches specified house of current player, empties its seeds, returns number of seeds
         int seedsFound = playerHouses.get(house-1).pickUp();
@@ -83,7 +88,7 @@ public class Turn {
         return false; //No bonus turn
     }
 
-    public void dropInHouse(boolean currentHouse, int nextHouse, boolean lastSeed){
+    private void dropInHouse(boolean currentHouse, int nextHouse, boolean lastSeed){
         //Drop in players own house
         if(currentHouse){
             House dropHouse = playerHouses.get(nextHouse);

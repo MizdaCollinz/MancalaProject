@@ -67,7 +67,7 @@ public class Board implements GameBoard{
             if(currentTurn == 0){ other = 1;} else { other = 0;}
 
             //Create a turn, inputs: Current Player, Opposing Player
-            Turn newTurn = new Turn(players.get(currentTurn),players.get(other));
+            GameTurn newTurn = new Turn(players.get(currentTurn),players.get(other));
 
             newTurn.setPickup(inputValue);
 
