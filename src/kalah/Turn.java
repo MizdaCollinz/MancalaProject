@@ -88,24 +88,20 @@ public class Turn implements GameTurn {
         return false; //No bonus turn
     }
 
+    //Drop the current seed in a house object
     private void dropInHouse(boolean currentHouse, int nextHouse, boolean lastSeed){
         //Drop in players own house
         if(currentHouse){
             House dropHouse = playerHouses.get(nextHouse);
             if(lastSeed){
-                if(dropHouse.receiveLastSeed()){
-                    int toStore = 1; //Seed being dropped
-                    int oppositeHouse = numHouses - nextHouse-1;
-
-                    //Number of seeds captured
-                    int fromCapture = opponentHouses.get(oppositeHouse).capturedByEnemy();
-                    if (fromCapture == 0){
-                        dropHouse.receiveSeed();
-                    } else {
-                        toStore += fromCapture;
-                        currentStore.receiveSeeds(toStore);
-                    }
+                int oppositeHouse = numHouses - nextHouse-1;
+                //Pass opposite house in case it is captured
+                //Returns quantity to send to the store
+                int toStore = dropHouse.receiveLastSeed(opponentHouses.get(oppositeHouse));
+                if (toStore > 0){
+                    currentStore.receiveSeeds(toStore);
                 }
+
             } else {
                 dropHouse.receiveSeed();
             }

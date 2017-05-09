@@ -25,28 +25,36 @@ public class House {
     }
 
     //Return true if results in a capture
-    public boolean receiveLastSeed(){
+    public int receiveLastSeed(House opposite){
         if (seedCount == 0){
-            return true;
-        } else {
-            seedCount++;
-            return false;
+            //Attempt to capture opposite's seeds
+            if(opposite.getSeeds() > 0){ //Can't capture empty house
+                return captureHouse(opposite);
+            }
         }
+        //Default behaviour when no capture occurs
+        receiveSeed();
+        return 0; //Send nothing to store
+
+    }
+
+    public int captureHouse(House enemyHouse){
+        int seedsCaptured = enemyHouse.capturedByEnemy();
+        int droppedSeed = 1;
+        int toStore = seedsCaptured + droppedSeed;
+        return toStore;
     }
 
     public int getSeeds(){
         return seedCount;
     }
 
-//    public void returnSeeds(int seeds){
-//        seedCount += seeds;
-//    }
-
     public int capturedByEnemy(){
         int handover = seedCount;
         seedCount = 0;
         return handover;
     }
+
 
     public String toString(){
         String filler = "";
