@@ -65,6 +65,7 @@ public class Kalah {
 		}
 	}
 
+	//Instantiates a list of houses for each player
 	public List<House> createHouses(){
 
 		List<House> playerHouses = new ArrayList<>();
@@ -96,7 +97,7 @@ public class Kalah {
 		}
 	}
 
-	// Return -1 to quit, Otherwise return valid house to pickup
+	// Return -1 to quit, Otherwise return valid house to pickup, retrieves input from the user
 	public int expectInput() {
 		int houseValue = io.readInteger("Player P" + (currentTurn+1) + "'s turn - Specify house number or 'q' to quit: ", 1, numHouses, -1, DEFAULT_QUIT_STRING);
 
@@ -114,8 +115,9 @@ public class Kalah {
 	}
 
 
+	//Determines whether the user has provided a valid non-empty house as input
 	public boolean checkInput(int houseValue){
-		if (players.get(currentTurn).getHouses().get(houseValue-1).getSeeds() == 0){
+		if (players.get(currentTurn).getGameHouses().get(houseValue-1).getSeeds() == 0){
 			io.println("House is empty. Move again.");
 			return false;
 		}
@@ -159,9 +161,9 @@ public class Kalah {
 			//Create a turn, inputs: Current Player, Opposing Player
 			GameTurn newTurn = new Turn(players.get(currentTurn),players.get(other));
 
-			newTurn.setPickup(inputValue);
+			newTurn.setPickup(inputValue); //Which house to be picked up
 
-			//Returns true for bonus turn, repeats turn for same player
+			//Start the turn, Returns true when a bonus turn occurs and repeats the turn for same player
 			if(newTurn.start()){
 				return beginTurn(false);
 			}

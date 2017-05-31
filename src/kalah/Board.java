@@ -27,7 +27,7 @@ public class Board implements GameBoard{
     public void printBoard(){
 
         if(numHouses == 0){
-            numHouses = players.get(0).getHouses().size();
+            numHouses = players.get(0).getHousePrinters().size();
         }
 
         PlayerPrinter p1 = players.get(0);
@@ -40,14 +40,14 @@ public class Board implements GameBoard{
         String middleEnds = "|    |";
 
         String p2Houses = "| P2 |";
-        String p1Houses = "|" +p2.getStore().toString() +  "|";
+        String p1Houses = "|" +p2.getStorePrinter().toString() +  "|";
 
         for (int i=0; i < numHouses ; i++ ){
-            p2Houses += (p2.getHouses().get(numHouses-1-i).toString() + "|");
-            p1Houses += (p1.getHouses().get(i).toString() + "|");
+            p2Houses += (p2.getHousePrinters().get(numHouses-1-i).toString() + "|");
+            p1Houses += (p1.getHousePrinters().get(i).toString() + "|");
             separatorPerHouse += "-------+";
         }
-        p2Houses += (p1.getStore().toString() + "|");
+        p2Houses += (p1.getStorePrinter().toString() + "|");
         p1Houses += " P1 |";
         String middleMiddle = separatorPerHouse.substring(0,separatorPerHouse.length()-1);
 

@@ -3,7 +3,7 @@ package kalah;
 /**
  * Created by bcoll on 5/3/2017.
  */
-public class House {
+public class House implements GameHouse {
 
 
     private int seedCount;
@@ -25,7 +25,7 @@ public class House {
     }
 
     //Return true if results in a capture
-    public int receiveLastSeed(House opposite){
+    public int receiveLastSeed(GameHouse opposite){
         if (seedCount == 0){
             //Attempt to capture opposite's seeds
             if(opposite.getSeeds() > 0){ //Can't capture empty house
@@ -38,7 +38,7 @@ public class House {
 
     }
 
-    public int captureHouse(House enemyHouse){
+    public int captureHouse(GameHouse enemyHouse){
         int seedsCaptured = enemyHouse.capturedByEnemy();
         int droppedSeed = 1;
         int toStore = seedsCaptured + droppedSeed;
@@ -55,7 +55,7 @@ public class House {
         return handover;
     }
 
-
+    @Override
     public String toString(){
         String filler = "";
         if (seedCount < 10){

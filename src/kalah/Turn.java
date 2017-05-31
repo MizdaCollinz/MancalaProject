@@ -12,11 +12,11 @@ public class Turn implements GameTurn {
     private Player current;
     private Player opponent;
 
-    private Store currentStore;
-    private Store opponentStore;
+    private GameStore currentStore;
+    private GameStore opponentStore;
 
-    private List<House> playerHouses;
-    private List<House> opponentHouses;
+    private List<? extends GameHouse> playerHouses;
+    private List<? extends GameHouse> opponentHouses;
 
     private int pickup;
 
@@ -24,11 +24,11 @@ public class Turn implements GameTurn {
         this.current = turn;
         this.opponent = opp;
 
-        currentStore = current.getStore();
-        opponentStore = opponent.getStore();
+        currentStore = current.getGameStore();
+        opponentStore = opponent.getGameStore();
 
-        playerHouses = current.getHouses();
-        opponentHouses = opponent.getHouses();
+        playerHouses = current.getGameHouses();
+        opponentHouses = opponent.getGameHouses();
 
         numHouses = playerHouses.size();
     }
@@ -92,7 +92,7 @@ public class Turn implements GameTurn {
     private void dropInHouse(boolean currentHouse, int nextHouse, boolean lastSeed){
         //Drop in players own house
         if(currentHouse){
-            House dropHouse = playerHouses.get(nextHouse);
+            GameHouse dropHouse = playerHouses.get(nextHouse);
             if(lastSeed){
                 int oppositeHouse = numHouses - nextHouse-1;
                 //Pass opposite house in case it is captured
@@ -108,7 +108,7 @@ public class Turn implements GameTurn {
 
         //Drop in opponents house
         } else {
-            House dropHouse = opponentHouses.get(nextHouse);
+            GameHouse dropHouse = opponentHouses.get(nextHouse);
             dropHouse.receiveSeed();
         }
     }

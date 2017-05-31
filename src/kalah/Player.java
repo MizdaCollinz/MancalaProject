@@ -25,13 +25,13 @@ public class Player implements PlayerPrinter{
         this.playerStore = store;
     }
 
-    public List<House> getHouses(){
-        return playerHouses;
-    }
-
-    public Store getStore(){
+    public List<? extends Object> getHousePrinters(){return playerHouses;}
+    protected List<? extends GameHouse> getGameHouses() { return playerHouses; }
+    public Object getStorePrinter(){
         return playerStore;
     }
+    protected GameStore getGameStore() { return playerStore; }
+
 
     //Check if player can proceed
     public boolean movesAvailable(){
@@ -52,4 +52,6 @@ public class Player implements PlayerPrinter{
 
         return score;
     }
+
+
 }

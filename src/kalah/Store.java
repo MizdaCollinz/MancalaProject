@@ -3,7 +3,7 @@ package kalah;
 /**
  * Created by bcoll on 5/3/2017.
  */
-public class Store {
+public class Store implements GameStore{
     private int seedCount;
     private int playerNumber;
 
@@ -17,6 +17,7 @@ public class Store {
         this.playerNumber = playerNumber;
     }
 
+    @Override
     public String toString(){
         String filler = "";
         if (seedCount < 10){
