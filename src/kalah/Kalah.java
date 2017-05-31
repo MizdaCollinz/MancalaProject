@@ -2,6 +2,7 @@ package kalah;
 
 import com.qualitascorpus.testsupport.IO;
 import com.qualitascorpus.testsupport.MockIO;
+import kalah.Model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Kalah {
 
 
 
-	private List<Player> players;
+	private List<GamePlayer> players;
 	private GameBoard board;
 	private IO io;
 
@@ -41,13 +42,12 @@ public class Kalah {
 
 		//Setup Players, pass to board
 		players = new ArrayList<>();
-		List<PlayerPrinter> playerPrinters = new ArrayList<>();
+		List<? extends PlayerPrinter> playerPrinters = players;
 		for (int i=0; i<numPlayers; i++){
-			Player newPlayer = new Player(i);
+			GamePlayer newPlayer = new Player(i);
 			newPlayer.setHouses(createHouses());
 			newPlayer.setStore(new Store(i));
 			players.add(newPlayer);
-			playerPrinters.add(newPlayer);
 		}
 
 		board.setPlayers(playerPrinters);
@@ -66,9 +66,9 @@ public class Kalah {
 	}
 
 	//Instantiates a list of houses for each player
-	public List<House> createHouses(){
+	public List<GameHouse> createHouses(){
 
-		List<House> playerHouses = new ArrayList<>();
+		List<GameHouse> playerHouses = new ArrayList<>();
 
 		for(int i=0; i<numHouses; i++){
 			playerHouses.add(new House(i,seedCount));

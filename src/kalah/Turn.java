@@ -1,5 +1,10 @@
 package kalah;
 
+import kalah.Model.GameHouse;
+import kalah.Model.GameStore;
+import kalah.Model.Player;
+import kalah.Model.PlayerModel;
+
 import java.util.List;
 
 /**
@@ -9,8 +14,8 @@ public class Turn implements GameTurn {
 
     private int numHouses;
 
-    private Player current;
-    private Player opponent;
+    private PlayerModel current;
+    private PlayerModel opponent;
 
     private GameStore currentStore;
     private GameStore opponentStore;
@@ -20,7 +25,7 @@ public class Turn implements GameTurn {
 
     private int pickup;
 
-    public Turn(Player turn, Player opp) {
+    public Turn(PlayerModel turn, PlayerModel opp) {
         this.current = turn;
         this.opponent = opp;
 

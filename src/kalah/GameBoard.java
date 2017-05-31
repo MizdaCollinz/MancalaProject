@@ -1,5 +1,7 @@
 package kalah;
 
+import kalah.Model.PlayerPrinter;
+
 import java.util.List;
 
 /**

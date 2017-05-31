@@ -1,4 +1,4 @@
-package kalah;
+package kalah.Model;
 
 /**
  * Created by bcoll on 31/05/2017.

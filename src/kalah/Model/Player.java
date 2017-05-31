@@ -1,15 +1,15 @@
-package kalah;
+package kalah.Model;
 
 import java.util.List;
 
 /**
  * Created by bcoll on 5/6/2017.
  */
-public class Player implements PlayerPrinter{
+public class Player implements GamePlayer {
 
     private int playerNumber;
-    private Store playerStore;
-    private List<House> playerHouses;
+    private GameStore playerStore;
+    private List<GameHouse> playerHouses;
 
     public Player(int player){
         this.playerNumber = player;
@@ -17,20 +17,18 @@ public class Player implements PlayerPrinter{
 
     //TODO Change setters to interfaces
 
-    public void setHouses(List<House> houses){
+    public void setHouses(List<GameHouse> houses){
         this.playerHouses = houses;
     }
 
-    public void setStore(Store store){
+    public void setStore(GameStore store){
         this.playerStore = store;
     }
 
     public List<? extends Object> getHousePrinters(){return playerHouses;}
-    protected List<? extends GameHouse> getGameHouses() { return playerHouses; }
-    public Object getStorePrinter(){
-        return playerStore;
-    }
-    protected GameStore getGameStore() { return playerStore; }
+    public List<GameHouse> getGameHouses() { return playerHouses; }
+    public Object getStorePrinter(){ return playerStore; }
+    public GameStore getGameStore() { return playerStore; }
 
 
     //Check if player can proceed

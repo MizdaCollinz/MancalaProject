@@ -1,6 +1,7 @@
 package kalah;
 
 import com.qualitascorpus.testsupport.IO;
+import kalah.Model.PlayerPrinter;
 
 import java.util.List;
 

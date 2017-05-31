@@ -1,5 +1,7 @@
 package kalah;
 
+import kalah.Model.Player;
+
 /**
  * Created by Benjamin on 5/8/2017.
  */
