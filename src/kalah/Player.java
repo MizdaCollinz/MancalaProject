@@ -1,36 +1,28 @@
 package kalah;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by bcoll on 5/6/2017.
  */
-public class Player {
-
-    private int seedCount;
-    private int numHouses;
+public class Player implements PlayerPrinter{
 
     private int playerNumber;
     private Store playerStore;
     private List<House> playerHouses;
 
-    public Player(int player, int seeds, int houses){
-        this.seedCount = seeds;
-        this.numHouses = houses;
+    public Player(int player){
         this.playerNumber = player;
-
-        this.playerStore = new Store(playerNumber);
-        this.createHouses();
     }
 
-    public void createHouses(){
+    //TODO Change setters to interfaces
 
-        playerHouses = new ArrayList<House>();
+    public void setHouses(List<House> houses){
+        this.playerHouses = houses;
+    }
 
-        for(int i=0; i<numHouses; i++){
-            playerHouses.add(new House(i,seedCount));
-        }
+    public void setStore(Store store){
+        this.playerStore = store;
     }
 
     public List<House> getHouses(){
@@ -43,7 +35,7 @@ public class Player {
 
     //Check if player can proceed
     public boolean movesAvailable(){
-        for (int i=0; i<numHouses; i++){
+        for (int i=0; i<playerHouses.size(); i++){
             if(playerHouses.get(i).getSeeds() > 0){
                 return true;
             }
@@ -53,7 +45,7 @@ public class Player {
 
     public int checkScore(){
         int score = 0;
-        for (int i=0; i<numHouses; i++ ){
+        for (int i=0; i<playerHouses.size(); i++ ){
             score += playerHouses.get(i).getSeeds();
         }
         score += playerStore.getSeeds();
