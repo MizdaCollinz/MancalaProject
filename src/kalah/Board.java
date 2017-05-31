@@ -13,14 +13,14 @@ public class Board implements GameBoard{
 
     private IO boardIO;
     private int numHouses;
-    private List<PlayerPrinter> players;
+    private List<? extends PlayerPrinter> players;
 
 
     public Board(IO io) {
         boardIO = io;
     }
 
-    public void setPlayers(List<PlayerPrinter> players){
+    public void setPlayers(List<? extends PlayerPrinter> players){
         this.players = players;
     }
 

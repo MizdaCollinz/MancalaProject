@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface GameBoard {
     void printBoard(); // Print the state of the game
-    void setPlayers(List<PlayerPrinter> players);
+    void setPlayers(List<? extends PlayerPrinter> players);
 }
